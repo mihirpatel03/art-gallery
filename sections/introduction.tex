@@ -1,24 +1,32 @@
 \section{Introduction}
-Social networks provide a powerful framework for modeling real-world interactions, capturing the flow of information among individuals, organizations, and entities. As a result, inherent to social networks is the concept of \textit{network fairness} \cite{boyd,bashardoust, fish} --- if LinkedIn users share resources and job opportunities with their followers, who you follow is directly related to how much information you recieve, and how soon this information reaches you. In a social network, certain nodes have more advantage than others simply due to their connectivity to the rest of the network. Understanding, quantifying, and ultimately mitigating these disparities is crucial for promoting fairness in the environments that social networks represent.
+We consider a variant of the classic Art Gallery problem, where we instead seek to optimize the length of the boundary seen by the guards, not the number of guards themselves. Specifically, given a simple polygon $P$ and $k\in\mathbb{N}$, we want to find the $k$ vertex guards which maximize the length of the boundary of $P$ that is watched. We define the set of vertices of $P$ as $V_P$, and $L(S)$ as the length of the boundary seen by the set of vertex guards/vertices $S$. Note that $L(S)$ is necessarily at most the perimeter of $P$. 
 
-A significant body of research focuses on maximizing the information access of nodes. Specifically, \cite{bashardoust,bhaskara} study the problem of \textsc{Broadcast Improvement}, where the goal is to add edges to a graph to maximize the graph's broadcast, the minimum probability over all vertex pairs $u,v$ that information starting at $u$ will reach $v$. This notion is similar to the diameter of a graph, but adapted to Independent Cascade, where edges each have a probability of transmitting information. However, less attention has been given to \textit{equalizing} information access across different parts of a network, which is the focus of our work.
+\optproblemdef{\MLVG}{A simple polygon $P$ and a positive integer $k\in\mathbb{N}$.}{Find a set of vertices $S\subseteq V_P$ of size at most $k$ such that $L(S)$ is maximized.}
 
-At a high level, we aim to add a budgeted number of edges to a graph to make two vertices equally important in the graph. Formally, given a graph and a budget $k$, our goal is to augment the graph by adding at most $k$ edges to make the ratio between the closeness centrality of two designated vertices as close to 1 as possible. The closeness centrality of a vertex $v$ is defined as the sum of shortest path distances from $v$ to all other vertices, making it a useful measure of how efficiently a node can access information in the shortest-path metric --- if a node is further away from more vertices (higher closeness centrality), it is less likely to receive information quickly, assuming information can arise from any part of the network.
+We also consider a weighted variant of this problem, where $P$ is a simple polygon composed of possibly collinear weighted line segments. Art galleries contain paintings, and some have more value than others. With limited guards, a realistic task would be to maximize not the total boundary watched, but the total value of paintings watched. In our definition, a weighted segment must be completely seen by our $k$ guards to be considered ``watched''. We define $W(S)$ as the weighted analog of $L(S)$, the sum of weights of all segments on the boundary of $P$ that are completely watched by guards in $S$.
 
-To tackle this problem, we draw insights from existing work on edge augmentation in shortest-path settings. Previous research has studied strategies to maximize the centrality of a single node or a group of nodes \cite{crescenzi,medya}, although this is still a notably different problem from ours, which seeks to equalize closeness centralities. We also study \textsc{Diameter Minimization} \cite{adriaens,bilo,demaine,li}, which seeks to add a limited number of edges to minimize a graph’s diameter, as well as broader edge augmentation approaches using $k$-center strategies \cite{meyerson}. These existing approaches provide theoretical guarantees and algorithmic strategies which inform our work, connecting network fairnesss with more classical graph optimization problems and techniques.
+\optproblemdef{\MVVG}{A weighted polygon $P$ and a positive integer $k\in\mathbb{N}$.}{Find a set of vertices $S\subseteq V_P$ of size at most $k$ such that $W(S)$ is maximized.}
+
+Finally, we consider a dynamic version of \MVVG, which we'll call \DMVVG. New paintings may arrive in an art gallery, and their arrangement around the gallery may change. Thinking of vertex guards as cameras, it can be costly and time-consuming rearrange and reinstall cameras across the room (at least compared to moving the paintings around). If the segment weights on the weighted polygon change, how can we modify our solution (with minimal changes) to maintain an approximate solution for \MVVG\ at each timestep?
+\todo[inline]{Obviously this dynamic problem needs to be specified a lot more, but hopefully the general idea of/motivation for the problem is showing through. I am trying to create a dynamic set cover analog for art gallery, where elements are inserted/removed one at a time, and the goal is to maintain a set cover that is still an approximate solution (without simply recalculating a set cover at each change).}
+
+
+\subsection{Related Works}
+\todo[inline]{Need a paragraph discussing more conventional Art gallery problem literature (authors+results). Klee, O'Rourke, Das}
+In \cite{fragoudakis-interior,fragoudakis-boundary,fragoudakis-paintings}, Fragoudakis et al. pose both \MLVG\ and \MVVG. They prove that both problems are APX-complete in \cite{fragoudakis-boundary}, meaning these problems are NP-hard and also permit no PTAS unless $P=NP$. In \cite{fragoudakis-interior}, they present a $(1-1/e)$ approximation for maximizing the vertex-guarded \emph{interior} of a polygon which runs in $O(k^2n^2)$ and depends on segmenting the polygon into visibility regions.
+
+\cite{abdelkader} presents several inapproximability results for art gallery problems, with $\alpha$-Floodlights.
+
+\todo[inline]{Need to discuss some more dynamic set cover. Here is the most recent paper I've been able to find.}
+
+\cite{bukov}
 
 \subsection{Our Contributions}
-For the problem of making the ratio of the closeness centrality of two vertices as close to 1 as possible, we present a simple algorithm that always achieves a ratio of $\frac{1}{2}$. Reducing from \textsc{Set Cover}, we then show that achieving any ratio $\tau\in\left(\frac{1}{2},1\right]$ is NP-hard. As the best possible ratio is $1$, this also implies that our algorithm for achieving a ratio of $\frac{1}{2}$ is a $\frac{1}{2}$-approximation for our problem.
-
-hardness of approximation? Group problem?
+For \MLVG\ and \MVVG, we present an NP-hardness proof from \textsc{Set Cover}
 
 
 
-\section{Preliminaries}
-The shortest path length between two vertices $u,v\in V$ within a graph $G=(V,E)$ is represented as $d_G(u,v)$. A graph $G=(V,E)$ augmented with an edge set $S\subseteq V^2\backslash E$ is denoted as $G+S=(V,E\cup S)$. Finally, we define the closeness centrality of a vertex $v\in V$ in a graph $G=(V,E)$ as $c_G(v)=\sum_{u\in V}d_G(u,v)$, the sum of the shortest paths to each other vertex in the graph. Note that having a smaller closeness centrality value means a node is closer to more vertices in the graph, i.e. more important in the graph.\\\\
-Given a graph $G$ and vertices $a,b$, we want to find the $k$ edges which will make the ratio of their closeness centralities as close to 1 as possible.\\
-\optproblemdef{\textsc{Closeness Ratio Improvement}}{A graph $G=(V,E)$, vertices $a,b\in V$, and a positive integer 
-$k\in\mathbb{N}$.}{Find a set of edges $S$ of size at most $k$ which maximizes $\frac{\min(c_{G+S}(a),c_{G+S}(b))}{\max(c_{G+S}(a),c_{G+S}(b))}$}
-\emph{Why have we chosen closeness centrality as our measure of node importance, when many other such measures exist?} 
-Primarily, edge additions cannot increase/worsen the closeness centrality of any vertex in the graph. This is different than betweenness centrality, where adding an edge to increase the betweenness centrality of a vertex can inadvertenly decrease the betweenness centrality of another vertex. \\\\
-Closeness centrality also simplifies the concept of being close to \textit{all vertices} in a graph --- a vertex needs to be reasonably close to all other vertices to achieve a low centrality value. Furthermore, if a vertex is close to most of the vertices in the graph but very far from a few, this vertex's centrality score can blow up just the same as if it was far from everything. This agrees with our assumptions about information flow in a network, new information can arise from anywhere and we want to maximize a vertex's ability to receive this information as soon as possible.\\\\
+
+
+
+
