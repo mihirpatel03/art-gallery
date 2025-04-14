@@ -1,0 +1,150 @@
+\documentclass[a4paper, margin=1inch]{article}
+\usepackage[margin=35mm]{geometry}
+
+\synctex=1
+\pdfoutput=1 
+
+\usepackage[utf8]{inputenc}
+\usepackage[T1]{fontenc}
+\usepackage{lmodern}
+\usepackage{microtype}
+
+\usepackage[USenglish]{babel}
+
+\usepackage{graphicx} % Required for inserting images
+\usepackage{xcolor}
+\usepackage{amsmath,amssymb,amsthm}
+\usepackage[]{hyperref}
+\hypersetup{
+    colorlinks,
+    linkcolor={red!50!black},
+    citecolor={blue!50!black},
+    urlcolor=.
+}
+\usepackage{float}
+\usepackage[capitalize]{cleveref}
+\usepackage{todonotes}
+\usepackage{tabularx}
+\usepackage[square,numbers]{natbib}
+\usepackage{tikz}
+\usetikzlibrary{calc}
+\usetikzlibrary{positioning,backgrounds,patterns,calc,matrix,shapes,decorations.pathreplacing,decorations.pathmorphing,math}
+\tikzset{crossing/.style={cross out, draw=red, minimum size=2*(#1-\pgflinewidth), inner sep=0pt, outer sep=1pt, very thick}, crossing/.default={4pt}}
+\usetikzlibrary{arrows.meta,bending,decorations.markings,hobby,patterns,calc}
+\newcolumntype{C}[1]{>{\centering\let\newline\\\arraybackslash\hspace{0pt}}m{#1}}
+
+\usepackage{thmtools, thm-restate}
+\newtheorem{redrule}{Reduction rule}
+\newtheorem*{claim}{Claim}
+\newtheorem{lemma}{Lemma}
+\newtheorem{corollary}{Corollary}
+\newtheorem{observation}{Observation}
+\newtheorem{proposition}{Proposition}
+\newtheorem{definition}{Definition}
+\newtheorem{theorem}{Theorem}
+
+% Algorithms
+\usepackage[ruled, vlined, linesnumbered, nofillcomment]{algorithm2e}
+% taken from https://tex.stackexchange.com/questions/162207/algorithm2e-comment-style
+\newcommand\commentstyle[1]{\footnotesize\ttfamily\textcolor{blue}{#1}}
+\DontPrintSemicolon
+\SetKwInOut{Input}{Input}
+\SetKwInOut{Output}{Output}
+\SetKwProg{Procedure}{Procedure}{}{}
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\newtheorem{assumption}{Assumption}
+\newcommand{\cclass} [1] {\textnormal{\textsf{#1}}}
+
+\usepackage{graphicx}
+\usepackage{wrapfig}
+\graphicspath{ {./figs/} }
+
+\newcommand{\problemdef}[3]{
+	\begin{center}
+	\begin{minipage}{0.95\columnwidth}
+		\noindent
+		\textsc{#1}
+		\vspace{5pt}\\
+		\setlength{\tabcolsep}{3pt}
+		\begin{tabularx}{\textwidth}{@{}lX@{}}
+			\textbf{Input:}     & #2 \\
+			\textbf{Question:}  & #3
+		\end{tabularx}
+	\end{minipage}
+	\end{center}
+}
+\newcommand{\optproblemdef}[3]{
+	\begin{center}
+	\begin{minipage}{0.95\columnwidth}
+		\noindent
+		#1
+		\vspace{5pt}\\
+		\setlength{\tabcolsep}{3pt}
+		\begin{tabularx}{\textwidth}{@{}lX@{}}
+			\textbf{Input:}     & #2 \\
+			\textbf{Task:}  & #3
+		\end{tabularx}
+	\end{minipage}
+	\end{center}
+}
+
+\newcommand{\boxproblem}[4]{
+    \begin{center}   
+        \fbox{~\begin{minipage}{.97\textwidth}
+            \vspace{2pt} 
+            \noindent
+            \normalsize\textsc{#1}
+            \vspace{1pt}
+
+            \setlength{\tabcolsep}{3pt}
+            \renewcommand{\arraystretch}{1.0}
+            \begin{tabularx}{\textwidth}{@{}lX@{}}
+                \normalsize\textbf{Input:}       & \normalsize#2 \\
+                \normalsize\textbf{Question:}    & \normalsize#3 \\
+                \normalsize\textbf{Parameter: }  & \normalsize#4
+            \end{tabularx}
+        \end{minipage}}
+    \end{center}
+}
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\usepackage{authblk}
+\newcommand{\email}[1]{ \href{mailto:#1}{\texttt{{#1}}}}
+
+\title{A Title}
+\date{}
+
+\author[1]{An Author}
+\author[2]{Another Author}
+
+
+\affil[1]{An affiliation}
+\affil[2]{Another affiliation}
+
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\begin{document}
+
+\maketitle
+
+%mandatory: add short abstract of the document
+\input{sections/abstract}
+
+% short version main body
+\input{sections/introduction}
+\input{sections/hardness}
+\input{sections/approx}
+\input{sections/inapprox}
+
+
+
+
+\bibliographystyle{abbrvnat}
+\bibliography{refs}
+
+
+\newpage
+\appendix
+\input{appendix/appendixA}
+
+\end{document}
