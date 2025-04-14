@@ -1,0 +1,160 @@
+\documentclass{beamer}
+
+\usepackage{amsfonts}
+\usepackage{amsmath}
+\usepackage{amsthm}
+\usepackage{array}
+\usepackage{calc}
+\usepackage{framed}
+\usepackage{tikz}
+
+\usepackage{xcolor}
+\usepackage{ragged2e}
+
+\newtheorem*{claim}{Claim}
+\setbeamercolor{claim}{bg = green, fg =black}
+
+\usetikzlibrary{calc}
+\usetikzlibrary{positioning, shapes.geometric}
+\usetikzlibrary{snakes}
+
+
+\DeclareMathOperator*{\diam}{diam}
+\definecolor{mygold}{rgb}{0.847, 0.702, 0.396}
+\definecolor{myblue}{rgb}{0.353, 0.706, 0.675}
+\definecolor{DarkGreen}{rgb}{0.0, 0.5, 0.0} % Adjust values for a darker shade
+
+
+%macro for problem boxes
+\newcommand{\prob}[1]{\textnormal{\textsc{#1}}\xspace}
+
+% Problem environment
+\newenvironment{tightcenter}
+	{\parskip=0pt\par\nopagebreak\centering}
+	{\par\noindent\ignorespacesafterend}
+
+\let\tnote\relax
+
+\newlength{\RoundedBoxWidth}
+\newsavebox{\GrayRoundedBox}
+\newenvironment{GrayBox}[1]%
+{\setlength{\RoundedBoxWidth}{\linewidth-4.5ex}
+\def\boxheading{#1}
+\begin{lrbox}{\GrayRoundedBox}
+\begin{minipage}{\RoundedBoxWidth}%
+}{%
+\end{minipage}
+\end{lrbox}%
+\begin{tightcenter}%
+\begin{tikzpicture}%
+\node(Text)[draw=black!20,fill=white,rounded corners,%
+inner sep=2ex,text width=\RoundedBoxWidth]%
+{\usebox{\GrayRoundedBox}};
+\coordinate(x) at (current bounding box.north west);
+\node [draw=white,rectangle,inner sep=3pt,anchor=north west,fill=white]
+at ($(x)+(10.5pt,.75em)$) {\boxheading};
+\end{tikzpicture}
+\end{tightcenter}\vspace{0pt}%
+\ignorespacesafterend}
+
+\newenvironment{problembox}[1]{\noindent\ignorespaces%
+\FrameSep=6pt%
+\parindent=0pt%
+\vspace*{-.5em}
+\begin{GrayBox}{\textsc{#1}}%
+\newcommand\Input{Input:}%
+\newcommand\Prob{Problem:}%
+\begin{tabular*}
+    {\columnwidth}
+    {@{\hspace{-0.5em}} >{\itshape} p{4.8em} p{0.8\columnwidth} @{}}
+}{
+\end{tabular*}%
+\end{GrayBox}%
+\vspace*{-1.0em}
+\ignorespacesafterend}
+%end macro declaration
+
+
+
+
+\usetheme{Madrid}
+\usecolortheme{default}
+
+
+
+\title{Maximizing the Guarded Boundary of a Dynamic Art Gallery}
+\author{Mihir Patel}
+
+
+\begin{document}
+
+\frame{\titlepage}
+
+
+\begin{frame}
+    \frametitle{A reminder on art gallery}
+\end{frame}
+
+\begin{frame}
+    \frametitle{flipping what we optimize}
+\end{frame}
+
+\begin{frame}
+    \frametitle{A weighted case}
+\end{frame}
+
+\begin{frame}
+  \frametitle{Stating the problem}
+  How can we add edges to a graph to make the ratio of the closeness centrality of two vertices as close to 1 as possible?\\
+  \pause
+  \begin{problembox}{Closeness Ratio Improvement}
+    \Input& A graph $G=(V,E)$, $a,b\in V$, and $k\in\mathbb{N}$. \\
+    \Prob& Find a set of edges $T\subseteq V^2-E$ of size at most $k$ which maximizes the value of $\frac{\min(c_{G+T}(a),c_{G+T}(b))}{\max(c_{G+T}(a),c_{G+T}(b))}$. \\
+  \end{problembox}
+\end{frame}
+
+\begin{frame}
+  \frametitle{Set Cover (a known NP-hard problem)}
+  \centering
+  \includegraphics[width=6cm]{figures/set-cover.png} % Replace
+  \begin{problembox}{Set Cover}
+    \Input& A universe $U$ of $n$ elements, $m$ subsets of $U$, $k\in\mathbb{N}$. \\
+    \Prob& Are there $k$ subsets such that their union covers all of $U$? \\
+  \end{problembox}
+  
+\end{frame}
+
+\begin{frame}
+    \frametitle{Monotonicity}
+\end{frame}
+
+\begin{frame}
+    \frametitle{Submodularity}
+\end{frame}
+
+
+\begin{frame}
+    \frametitle{A basic approach}
+\end{frame}
+
+\begin{frame}
+    \frametitle{A dynamic version}
+\end{frame}
+
+
+
+
+\begin{frame}
+  \title{Thank You!}
+  \begin{center}
+      \Huge{\textbf{Thank You!}} \\
+      \vspace{1em}
+      \Large{\textit{Questions?}} \\
+      \vspace{2em}
+  \end{center}
+\end{frame}
+
+\end{document}
+
+
+
