@@ -3,7 +3,7 @@ We consider a variant of the classic Art Gallery problem, where we instead seek 
 
 \optproblemdef{\MLVG}{A simple polygon $P$ and a positive integer $k\in\mathbb{N}$.}{Find a set of vertices $S\subseteq V_P$ of size at most $k$ such that $L(S)$ is maximized.}
 
-We also consider a weighted variant of this problem, where $P$ is a simple polygon composed of possibly collinear weighted line segments. Art galleries contain paintings, and some have more value than others. With limited guards, a realistic task would be to maximize not the total boundary watched, but the total value of paintings watched. In our definition, a weighted segment must be completely seen by our $k$ guards to be considered ``watched''. We define $W(S)$ as the weighted analog of $L(S)$, the sum of weights of all segments on the boundary of $P$ that are completely watched by guards in $S$.
+We also consider a weighted variant of this problem, where $P$ is a simple polygon composed of (possibly collinear) weighted line segments. Art galleries contain paintings, and some have more value than others. With limited guards, a realistic task would be to maximize not the total boundary watched, but the total value of paintings watched. In our definition, a weighted segment must be completely seen by our $k$ guards to be considered ``watched''. We define $W(S)$ as the weighted analog of $L(S)$, the sum of weights of all segments on the boundary of $P$ that are completely watched by guards in $S$.
 
 \optproblemdef{\MVVG}{A weighted polygon $P$ and a positive integer $k\in\mathbb{N}$.}{Find a set of vertices $S\subseteq V_P$ of size at most $k$ such that $W(S)$ is maximized.}
 
@@ -13,7 +13,7 @@ Finally, we consider a dynamic version of \MVVG, which we'll call \DMVVG. New pa
 
 \subsection{Related Works}
 \todo[inline]{Need a paragraph discussing more conventional Art gallery problem literature (authors+results). Klee, O'Rourke, Das}
-In \cite{fragoudakis-interior,fragoudakis-boundary,fragoudakis-paintings}, Fragoudakis et al. pose both \MLVG\ and \MVVG. They prove that both problems are APX-complete in \cite{fragoudakis-boundary}, meaning these problems are NP-hard and also permit no PTAS unless $P=NP$. In \cite{fragoudakis-interior}, they present a $(1-1/e)$ approximation for maximizing the vertex-guarded \emph{interior} of a polygon which runs in $O(k^2n^2)$ and depends on segmenting the polygon into visibility regions.
+In \cite{fragoudakis-interior,fragoudakis-boundary,fragoudakis-paintings}, Fragoudakis et al. pose both \MLVG\ and \MVVG. They prove that both problems are APX-complete in \cite{fragoudakis-boundary}, meaning these problems are NP-hard and also permit no PTAS unless $P=NP$. In \cite{fragoudakis-interior}, they present a $(1-1/e)$-approximation for maximizing the vertex-guarded \emph{interior} of a polygon which runs in $O(k^2n^2)$ and depends on segmenting the polygon into visibility regions.
 
 \cite{abdelkader} presents several inapproximability results for art gallery problems, with $\alpha$-Floodlights.
 
@@ -22,7 +22,10 @@ In \cite{fragoudakis-interior,fragoudakis-boundary,fragoudakis-paintings}, Frago
 \cite{bukov}
 
 \subsection{Our Contributions}
-For \MLVG\ and \MVVG, we present an NP-hardness proof from \textsc{Set Cover}
+For \MLVG\ and \MVVG, we extend the results from \cite{fragoudakis-interior} to get a $(1-1/e)$-approximation, that runs in $O(kn^2)$. We use the monotonicity and submodularity of our objective functions $L$ and $W$ to get this bound, presenting a simpler (and slightly more efficient) approach than the Finest Visbility Segmentation approach from \cite{fragoudakis-interior,fragoudakis-paintings}. We also prove several inapproximability results for these problems.
+
+For \DMVVG, we analyze the performance of several strategies, showing some of them may perform arbitrarily badly compared to an optimal solution, while some achieve a bound. 
+
 
 
 
