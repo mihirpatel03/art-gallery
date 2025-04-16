@@ -144,6 +144,14 @@ at ($(x)+(10.5pt,.75em)$) {\boxheading};
 \end{frame}
 
 \begin{frame}
+  \frametitle{Proposed Contributions}
+  \begin{itemize}
+    \item Improving simplicity (and possibly runtime) of current results for unweighted/weighted case.\pause
+    \item Difficult to break past monotone/submodular $\rightarrow$ hardness of approximation results?
+  \end{itemize}
+\end{frame}
+
+\begin{frame}
   \frametitle{Set Cover}
   \centering
   \includegraphics[width=6cm]{figures/set-cover.png} % Replace
@@ -165,44 +173,37 @@ at ($(x)+(10.5pt,.75em)$) {\boxheading};
   \end{problembox}
 \end{frame}
 
-\begin{frame}
-  \frametitle{Monotonicity and Submodularity}
+% \begin{frame}
+%   \frametitle{Monotonicity and Submodularity}
 
-  \begin{itemize}
-    \item \textbf{Monotonicity:} \\
-      For any sets $S \subseteq T$, we have:
-      \[
-        f(S) \leq f(T)
-      \]
-    \pause
-    \item \textbf{Submodularity:} \\
-      For any sets $S \subseteq T$ and element $x \notin T$, we have:
-      \[
-        f(T \cup \{x\}) - f(T) \leq f(S \cup \{x\}) - f(S)
-      \]
-  \end{itemize}\pause
+%   \begin{itemize}
+%     \item \textbf{Monotonicity:} \\
+%       For any sets $S \subseteq T$, we have:
+%       \[
+%         f(S) \leq f(T)
+%       \]
+%     \pause
+%     \item \textbf{Submodularity:} \\
+%       For any sets $S \subseteq T$ and element $x \notin T$, we have:
+%       \[
+%         f(T \cup \{x\}) - f(T) \leq f(S \cup \{x\}) - f(S)
+%       \]
+%   \end{itemize}\pause
 
-  \vspace{0.5em}
+%   \vspace{0.5em}
 
-  \begin{theorem}
-    Greedily maximizing a monotone, submodular objective function achieves a $(1 - 1/e)$-approximation to the optimal value.
-  \end{theorem}\pause
+%   \begin{theorem}
+%     Greedily maximizing a monotone, submodular objective function achieves a $(1 - 1/e)$-approximation to the optimal value.
+%   \end{theorem}\pause
 
-  \vspace{0.5em}
+%   \vspace{0.5em}
 
-  \textbf{Example:} Max Coverage
-\end{frame}
+%   \textbf{Example:} Max Coverage
+% \end{frame}
 
 
 
-\begin{frame}
-    \frametitle{Proposed Contributions}
-    \begin{itemize}
-      \item Improving simplicity (and possibly runtime) of current results for unweighted/weighted case.\pause
-      \item Hardness reduction from Set Cover, not 3SAT variation.\pause
-      \item Difficult to break past monotone/submodular $\rightarrow$ hardness of approximation results?
-    \end{itemize}
-\end{frame}
+
 
 \begin{frame}
     \frametitle{A dynamic version}
