@@ -92,54 +92,125 @@ at ($(x)+(10.5pt,.75em)$) {\boxheading};
 
 
 \begin{frame}
-    \frametitle{A reminder on art gallery}
+  \frametitle{Art Gallery}
+  \centering
+  \begin{center}
+      \includegraphics[width=0.8\textwidth]{figures/art-gallery.png}
+      \vspace{1em}
+  \end{center}
+  \textcolor{DarkGreen}{\textbf{Problem:}} Given a polygon $P$, find the minimum number of guards needed to guard the whole polygon.
 \end{frame}
 
 \begin{frame}
-    \frametitle{flipping what we optimize}
+    \centering
+    \frametitle{Flipping what we optimize}
+    \begin{center}
+      \includegraphics[width=0.8\textwidth]{figures/art-gallery.png}
+      \vspace{1em}
+    \end{center}
+    \only<1>{
+        \textcolor{DarkGreen}{\textbf{Problem:}} Given a polygon $P$ and $k\in\mathbb{N}$, find the maximum area that can be guarded by $k$ guards.
+    }
+    \only<2>{
+        \textcolor{DarkGreen}{\textbf{Problem:}} Given a polygon $P$ and $k\in\mathbb{N}$, find the maximum area that can be guarded by $k$ \textcolor{red}{vertex} guards.
+    }
+    \only<3>{
+        \textcolor{DarkGreen}{\textbf{Problem:}} Given a polygon $P$ and $k\in\mathbb{N}$, find the maximum \textcolor{red}{boundary length} that can be guarded by $k$ \textcolor{red}{vertex} guards.
+    }
 \end{frame}
 
 \begin{frame}
     \frametitle{A weighted case}
+    \emph{Some paintings are more valuable than others, and with limited guards they should be of greater concern.}\\\pause
+    \begin{center}
+      \includegraphics[width=8cm]{figures/weighted-polygon.png}
+    \end{center}\pause
+    \textcolor{DarkGreen}{\textbf{Problem:}} Given a polygon $P$ and $k\in\mathbb{N}$, find the maximum value that can be guarded by $k$ vertex guards.
 \end{frame}
 
 \begin{frame}
-  \frametitle{Stating the problem}
-  How can we add edges to a graph to make the ratio of the closeness centrality of two vertices as close to 1 as possible?\\
-  \pause
-  \begin{problembox}{Closeness Ratio Improvement}
-    \Input& A graph $G=(V,E)$, $a,b\in V$, and $k\in\mathbb{N}$. \\
-    \Prob& Find a set of edges $T\subseteq V^2-E$ of size at most $k$ which maximizes the value of $\frac{\min(c_{G+T}(a),c_{G+T}(b))}{\max(c_{G+T}(a),c_{G+T}(b))}$. \\
-  \end{problembox}
+  \frametitle{Existing Results}
+  Fragoudakis et. al (2005,2006,2007)\\
+  \begin{problembox}{Maximum Length Vertex Guard}
+    \Input& A simple polygon $P$ and positive integer $k\in\mathbb{N}$. \\
+    \Prob& Find a set of vertices $S\subseteq V_P$ of size at most $k$ such that \textcolor{red}{$L(S)$} is maximized. \\
+  \end{problembox}\\\pause
+
+  \begin{problembox}{Maximum Value Vertex Guard}
+    \Input& A simple polygon $P$ and positive integer $k\in\mathbb{N}$. \\
+    \Prob& Find a set of vertices $S\subseteq V_P$ of size at most $k$ such that \textcolor{red}{$W(S)$} is maximized. \\
+  \end{problembox}\pause
+  Both problems are APX-complete and permit $(1-1/e)$-approximations. 
 \end{frame}
 
 \begin{frame}
-  \frametitle{Set Cover (a known NP-hard problem)}
+  \frametitle{Set Cover}
   \centering
   \includegraphics[width=6cm]{figures/set-cover.png} % Replace
   \begin{problembox}{Set Cover}
-    \Input& A universe $U$ of $n$ elements, $m$ subsets of $U$, $k\in\mathbb{N}$. \\
-    \Prob& Are there $k$ subsets such that their union covers all of $U$? \\
+    \Input& A universe $U$ of $n$ elements, $m$ subsets of $U$. \\
+    \Prob& What is the \textcolor{red}{minimum number of subsets} whose union covers all of $U$? \\
   \end{problembox}
   
 \end{frame}
 
+
 \begin{frame}
-    \frametitle{Monotonicity}
+  \frametitle{Max Coverage}
+  \centering
+  \includegraphics[width=6cm]{figures/set-cover.png} % Replace
+  \begin{problembox}{Max Coverage}
+    \Input& A universe $U$ of $n$ elements, $m$ subsets of $U$, $k\in\mathbb{N}$. \\
+    \Prob& What is the \textcolor{red}{maximum number of elements} in $U$ covered by the union of $k$ subsets? \\
+  \end{problembox}
 \end{frame}
 
 \begin{frame}
-    \frametitle{Submodularity}
+  \frametitle{Monotonicity and Submodularity}
+
+  \begin{itemize}
+    \item \textbf{Monotonicity:} \\
+      For any sets $S \subseteq T$, we have:
+      \[
+        f(S) \leq f(T)
+      \]
+    \pause
+    \item \textbf{Submodularity:} \\
+      For any sets $S \subseteq T$ and element $x \notin T$, we have:
+      \[
+        f(T \cup \{x\}) - f(T) \leq f(S \cup \{x\}) - f(S)
+      \]
+  \end{itemize}\pause
+
+  \vspace{0.5em}
+
+  \begin{theorem}
+    Greedily maximizing a monotone, submodular objective function achieves a $(1 - 1/e)$-approximation to the optimal value.
+  \end{theorem}\pause
+
+  \vspace{0.5em}
+
+  \textbf{Example:} Max Coverage
 \end{frame}
 
 
+
 \begin{frame}
-    \frametitle{A basic approach}
+    \frametitle{Proposed Contributions}
+    \begin{itemize}
+      \item Improving simplicity (and possibly runtime) of current results for unweighted/weighted case.\pause
+      \item Hardness reduction from Set Cover, not 3SAT variation.\pause
+      \item Difficult to break past monotone/submodular $\rightarrow$ hardness of approximation results?
+    \end{itemize}
 \end{frame}
 
 \begin{frame}
     \frametitle{A dynamic version}
+    Paintings may move around, new paintings may arrive. You need to find an optimal camera placement that does not require extensive reinstallment.\\\pause
+    \centering
+    \includegraphics[width=12cm]{figures/dynamic-gallery.png} % Replace
 \end{frame}
+
 
 
 
