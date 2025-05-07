@@ -1,0 +1,21 @@
+
+
+monotone
+
+\begin{observation}\label{obs:monotone}
+    For any $S\subseteq T\subseteq V$, $L(S)\leq L(T)$.
+\end{observation}
+
+\begin{proof}
+    Consider a point $p$ on the portion of the boundary of the polygon that is counted by $L(S)$, then $p$ must be seen by some $v\in S$. As $S\subseteq T$, $v\in T$ as well, implying $p$ is counted by $L(T)$. Every point on the boundary counted by $L(S)$ is also counted by $L(T)$, and thus $L(S)\leq L(T)$. 
+\end{proof}
+
+submodular
+\begin{claim}\label{clm:submodular}
+    For any $S\subseteq T\subseteq V$ and $v\notin T$, $L(S\cup\{v\})-L(S)\geq L(T\cup\{v\})-L(T)$.
+\end{claim}
+
+\begin{proof}
+    First observe that, by~\Cref{obs:monotone}, $L(S\cup\{v\})-L(S)\geq 0$, meaning this claim is trivial if $L(T\cup\{v\})-L(T)\leq 0$. So we only consider the case where $L(T\cup\{v\})-L(T)>0$, or in other words, there is some portion of the boundary of the polygon seen by the set of guards $T\cup\{v\}$, but not $T$. Then for every point $p$ on this boundary, $p$ is seen by $v$, but not $T$. As $S\subseteq T$, by~\Cref{obs:monotone}, $p$ is not seen by $S$ either. \\\\
+    In short, we know that $p$ is seen $S\cup\{v\}$ but not $S$, and as this is true for every point on the boundary seen by the set of guards $T\cup\{v\}$, but not $T$, $L(S\cup\{v\})-L(S)\geq L(T\cup\{v\})-L(T)$, as desired.
+\end{proof}
