@@ -1,1 +1,126 @@
 \section{Cost}
+
+
+\begin{figure}
+    \centering
+    \begin{tikzpicture}
+        %cone 1
+        \coordinate (a) at (0, -.25);
+        \coordinate (b) at (1, 1.5);
+        \coordinate (c) at (2, 0);
+        %cone 2
+        \coordinate (d) at (3, 1.5);
+        \coordinate (e) at (4, 0);
+        %cone 3
+        \coordinate (f) at (5, 1.5);
+        \coordinate (g) at (6, 0);
+
+        %cone 4
+        \coordinate (h) at (7.5, 0);
+        \coordinate (i) at (8.5, 1.5);
+        \coordinate (j) at (9.5, -.25);
+
+        % Draw the polygon
+        \draw[thick] (a) -- (b) -- (c) -- (d) -- (e) -- (f) -- (g);
+        \draw[thick] (h) -- (i) -- (j) -- (a);
+
+        % Add dots at each vertex
+        \fill (a) circle (2pt);
+        \fill (b) circle (2pt);
+        \fill (c) circle (2pt);
+        \fill (d) circle (2pt);
+        \fill (e) circle (2pt);
+        \fill (f) circle (2pt);
+        \fill (g) circle (2pt);
+        \fill (h) circle (2pt);
+        \fill (i) circle (2pt);
+        \fill (j) circle (2pt);
+
+        %ellipsis
+        \node at (6.8, .75) {\huge$\cdots$};
+
+        % Add edge weights 
+        \node[left, text=blue] at ($(a)!0.75!(b)$) {$1$};
+        \node[right, text=blue] at ($(b)!0.3!(c)$) {$w$};
+
+        \node[left, text=blue] at ($(c)!0.75!(d)$) {$1$};
+        \node[right, text=blue] at ($(d)!0.3!(e)$) {$w$};
+
+        \node[left, text=blue] at ($(e)!0.75!(f)$) {$1$};
+        \node[right, text=blue] at ($(f)!0.3!(g)$) {$w$};
+
+        \node[left, text=blue] at ($(h)!0.75!(i)$) {$1$};
+        \node[right, text=blue] at ($(i)!0.25!(j)$) {$w$};
+
+        \node[below, text=blue] at ($(a)!0.5!(j)$) {$1$};
+
+
+
+
+    \end{tikzpicture}
+    \caption{apex vertices have cost w, everything else has w^2, budget is w^2.}
+    \label{fig:greedy-heaviest}
+\end{figure}
+
+
+
+
+
+
+
+
+
+\begin{figure}
+    \centering
+    \begin{tikzpicture}[scale=4]
+        % Define the points of the reflex quadrilateral
+        \coordinate (A) at (0, 0);
+        \coordinate (B) at (1, 0);
+        \coordinate (C) at (0.6, 1);
+        \coordinate (D) at (.53, .33); % Reflex angle at D
+
+        % Draw the polygon
+        \draw[thick] (A) -- (B) -- (C) -- (D) -- cycle;
+
+        % Draw vertex dots
+        \foreach \point in {A,B,C,D}
+            \fill (\point) circle (0.015);
+
+        % Label the vertices
+        \node[below left] at (A) {$A$};
+        \node[below right] at (B) {$B$};
+        \node[above] at (C) {$C$};
+        \node[above left] at (D) {$D$};
+
+        % Add edge weights (all same color)
+        \node[below, text=blue] at ($(A)!0.5!(B)$) {$1$};
+        \node[right, text=blue] at ($(B)!0.5!(C)$) {$1$};
+        \node[above left, text=blue] at ($(C)!0.5!(D)$) {$w$}; % edge with weight w
+        \node[above left, text=blue] at ($(D)!0.5!(A)$) {$1$};
+
+        % Compute average y-coordinate for alignment
+        \path let \p1 = (A), \p2 = (C) in
+            coordinate (tableanchor) at ($(0, {(\y1 + \y2)/2})$);
+
+        % Add cost table to the right, vertically aligned with polygon
+        \node[anchor=west] at ($(B) + (.5cm, 0.5cm)$) {
+            \begin{tabular}{c|c}
+            Vertex & Cost \\
+            \hline
+            $A$ & $2$ \\
+            $B$ & $w + 4$ \\
+            $C$ & $w + 4$ \\
+            $D$ & $w + 4$ \\
+            \end{tabular}
+        };
+
+    \end{tikzpicture}
+    \caption{caption}
+    \label{fig:greedy-cheapest}
+\end{figure}
+
+
+
+
+
+
