@@ -1,6 +1,6 @@
-\section{Submodularity}
-
-First, we show that our objective function $L$ is monotone.
+\section{Submodularity of \MVVG{}}
+In this section, we prove that the objective functions of both \MLVG{} and \MVVG{} are monotone and submodular. This then implies that greedily maximizing the objective will yield a $(1-\frac{1}{e})$ approximation for both problems. We also provide a brief analysis of the running time of these greedy algorithms, which is an improvement on the approximation algorithms proposed for these problems in \cite{fragoudakis-interior,fragoudakis-boundary,fragoudakis-paintings}.\\\\
+We start with the objective function of \MLVG{}, $L$. Recall that given a simple polygon $P$ and a set of vertex guards $S\subseteq V_P$, $L(S)$ denotes the length of the guarded boundary of $P$, and is necessarily less than or equal to the permiter of $P$. It is fairly immediate to see that $L$ is monotone.
 
 \begin{observation}\label{obs:monotone}
     For any $S\subseteq T\subseteq V$, $L(S)\leq L(T)$.
@@ -10,14 +10,36 @@ First, we show that our objective function $L$ is monotone.
     Consider a point $p$ on the portion of the boundary of the polygon counted by $L(S)$, then $p$ must be seen by some $v\in S$. As $S\subseteq T$, $v\in T$ as well, implying $p$ is counted by $L(T)$. Every point on the boundary counted by $L(S)$ is also counted by $L(T)$, and thus $L(S)\leq L(T)$. 
 \end{proof}
 \noindent
-Next, we show that $L$ is submodular.
+We can also show that $L$ is submodular with a little bit more work.
 
 \begin{claim}\label{clm:submodular}
     For any $S\subseteq T\subseteq V$ and $v\notin T$, $L(S\cup\{v\})-L(S)\geq L(T\cup\{v\})-L(T)$.
 \end{claim}
 
 \begin{proof}
-    First observe that, by~\Cref{obs:monotone}, $L(S\cup\{v\})-L(S)\geq 0$, meaning this claim is trivial if $L(T\cup\{v\})-L(T)\leq 0$. So we only consider the case where $L(T\cup\{v\})-L(T)>0$, or in other words, there is some portion of the boundary of the polygon seen by the set of guards $T\cup\{v\}$, but not $T$. Then for every point $p$ in this portion, $p$ is seen by $v$, but not $T$. As $S\subseteq T$, by~\Cref{obs:monotone}, $p$ is not seen by $S$ either. \\\\
-    In short, we know that $p$ is seen $S\cup\{v\}$ but not $S$, and as this is true for every point on the boundary seen by the set of guards $T\cup\{v\}$, but not $T$, $L(S\cup\{v\})-L(S)\geq L(T\cup\{v\})-L(T)$, as desired.
+    First observe that, by~\Cref{obs:monotone}, $L(S\cup\{v\})-L(S)\geq 0$, meaning this claim is trivial if $L(T\cup\{v\})-L(T)\leq 0$. So we only consider the case where $L(T\cup\{v\})-L(T)>0$, or in other words, there is some portion of the boundary of the polygon guarded by $T\cup\{v\}$, but not $T$. Then for every point $p$ in this portion, $p$ is visible to $v$, but not $T$. As $S\subseteq T$, by~\Cref{obs:monotone}, $p$ is visible to $S$ either. \\\\
+    In short, we know that $p$ is visible to $S\cup\{v\}$ but not $S$, and as this is true for every point on the boundary seen by the set of guards $T\cup\{v\}$, but not $T$, $L(S\cup\{v\})-L(S)\geq L(T\cup\{v\})-L(T)$, as desired.
 \end{proof}
+\noindent
+These two facts also lift quickly to the objective function of \MVVG{}, $W$. Given a simple polygon $P$ made up of weighted segments and a set of vertex guards $S\subseteq V_P$, $W(S)$ denotes the total weight of the guarded boundary of $P$. Note that a weighted segment must be \emph{completely} visible to a set of guards to be considered ``guarded'' and contribute to the total weight. The proofs of monotonicity and submodularity for $W$ proceed exactly the same as those of $L$ (we only need to swap $L$ and $W$).
 
+\begin{observation}\label{obs:monotone-w}
+    For any $S\subseteq T\subseteq V$, $W(S)\leq W(T)$.
+\end{observation}
+
+\begin{claim}\label{clm:submodular-w}
+    For any $S\subseteq T\subseteq V$ and $v\notin T$, $W(S\cup\{v\})-W(S)\geq W(T\cup\{v\})-W(T)$.
+\end{claim}
+\noindent
+Equipped with these properties of $L$ and $W$, we can quickly derive greedy algorithms for \MLVG{} and \MVVG{}. Start with an empty solution set $S$. While the size of $S$ is less than $k$, find the vertex $v$ which provides $L$ with the most marginal gain. That is, the vertex $v$ which maximizes $L(S\cup\{v\})-L(S)$. Then add $v$ to $S$ and repeat, until $|S|=k$. Then, because we $L$ and $W$ are both monotone submodular, we get the following facts about maximizing monotone submodular functions under cardinality constraints (i.e. the type of problem \MLVG{} and \MVVG{} both are).
+
+\begin{theorem}[\cite{cornuejols}]
+    The greedy algorithm is a $(1-1/e)$-approximation algorithm for \MLVG{}. 
+\end{theorem}
+
+\begin{theorem}[\cite{feige}]
+    For any $\epsilon>0$, there is no $(1-1/e+\epsilon)$-approximation algorithm for \MLVG{}, unless \cclass{P}=\cclass{NP}.
+\end{theorem}
+\noindent
+And the same bounds are true for the greedy algorithm which maximizes $W$ for \MVVG{}. These algorithms require $k$ iterations, and in a given iteration must check the marginal gain provided by at most $n$ vertices. To check the marginal gain of a given vertex $v$, we can maintain the boundary guarded by $S$ (and its length), calculate the boundary guarded by $v$, and then take the union of both boundaries. Finding the boundary guarded by a vertex can be done in $O(n)$ \cite{visibility}, so with proper data structure management, one ``marginal gain check'' can be done in $O(n)$. Thus the greedy algorithm has worst case running time of $O(kn^2)$. \\\\
+We've shown that using the monotonicity and submoduarity of our objective functions, we can achieve simple greedy algorithms for \MLVG{} and \MVVG{}. While \cite{fragoudakis-boundary,fragoudakis-interior,fragoudakis-paintings} propose algorithms that also achieve $(1-1/e)$ approximations for these problems, we also show that these are the \emph{best possible} approximations for these problems, unless \cclass{P}=\cclass{NP}. Our algorithms also run in $O(kn^2)$ time, while their algorithms run in $O(n^4)$ and $O(k^2n^2)$, both less efficient than ours.
